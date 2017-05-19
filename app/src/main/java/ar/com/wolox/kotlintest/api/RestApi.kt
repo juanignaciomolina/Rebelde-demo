@@ -1,13 +1,18 @@
-package ar.com.wolox.kotlintest.screens.home
+package ar.com.wolox.kotlintest.api
 
-import ar.com.wolox.kotlintest.models.Gif
-import com.brianegan.bansa.Action
-import com.brianegan.bansa.Reducer
+import ar.com.wolox.kotlintest.App
+import ar.com.wolox.kotlintest.BuildConfig
+import com.readystatesoftware.chuck.ChuckInterceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 /**
  * MIT License
  *
- * Copyright (c) 2017 Juan Ignacio Molina
+ * Copyright (c) 2017 Wolox S.A
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -26,20 +31,22 @@ import com.brianegan.bansa.Reducer
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class HomeReducer {
+class RestApi {
 
-    // Actions
-    object INIT : Action
-    object FETCHING_GIF : Action
-    data class GIF_ARRIVED(val gif : Gif) : Action
+    val httpClient = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(
+                    if (BuildConfig.DEBUG)
+                        HttpLoggingInterceptor.Level.BODY
+                    else
+                        HttpLoggingInterceptor.Level.NONE
+            ))
+            .addInterceptor(ChuckInterceptor(App.sInstance))
+            .build()
 
-    // Reducer
-    val reducer = Reducer<HomeState> { state, action ->
-        when (action) {
-            is INIT -> HomeState()
-            is FETCHING_GIF -> state.copy(isFetching = true)
-            is GIF_ARRIVED -> state.copy(gif = action.gif, isFetching = false)
-            else -> state
-        }
-    }
+    val giphy = Retrofit.Builder()
+            .client(httpClient)
+            .baseUrl("https://api.giphy.com/v1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GiphyService::class.java)
 }

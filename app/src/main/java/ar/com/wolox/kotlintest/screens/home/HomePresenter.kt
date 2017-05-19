@@ -1,13 +1,18 @@
 package ar.com.wolox.kotlintest.screens.home
 
-import ar.com.wolox.kotlintest.models.Gif
-import com.brianegan.bansa.Action
-import com.brianegan.bansa.Reducer
+import ar.com.wolox.kotlintest.App
+import ar.com.wolox.kotlintest.api.RestApi
+import ar.com.wolox.kotlintest.models.DataWrapper
+import com.brianegan.bansa.Store
+import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * MIT License
  *
- * Copyright (c) 2017 Juan Ignacio Molina
+ * Copyright (c) 2017 Wolox S.A
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -26,20 +31,25 @@ import com.brianegan.bansa.Reducer
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class HomeReducer {
+class HomePresenter(val store: Store<HomeState>) {
 
-    // Actions
-    object INIT : Action
-    object FETCHING_GIF : Action
-    data class GIF_ARRIVED(val gif : Gif) : Action
+    val restApi = RestApi()
 
-    // Reducer
-    val reducer = Reducer<HomeState> { state, action ->
-        when (action) {
-            is INIT -> HomeState()
-            is FETCHING_GIF -> state.copy(isFetching = true)
-            is GIF_ARRIVED -> state.copy(gif = action.gif, isFetching = false)
-            else -> state
-        }
+    fun getGifs() {
+        restApi.giphy.trending().enqueue(object : Callback<DataWrapper> {
+            override fun onResponse(call: Call<DataWrapper>, response: Response<DataWrapper>) {
+                if (response.isSuccessful) {
+                    store.dispatch(HomeReducer.GIF_ARRIVED(
+                            response.body()!!.data[0].images.original)
+                    )
+                } else
+                    App.sInstance.toast("ERROR")
+            }
+
+            override fun onFailure(call: Call<DataWrapper>?, t: Throwable?) {
+                App.sInstance.toast("ERROR")
+            }
+
+        })
     }
 }

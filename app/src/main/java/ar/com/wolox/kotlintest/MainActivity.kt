@@ -5,6 +5,7 @@ import ar.com.wolox.kotlintest.screens.home.HomeScreen
 import com.wealthfront.magellan.Navigator
 import com.wealthfront.magellan.support.SingleActivity
 
+
 class MainActivity : SingleActivity() {
 
     override fun createNavigator(): Navigator {

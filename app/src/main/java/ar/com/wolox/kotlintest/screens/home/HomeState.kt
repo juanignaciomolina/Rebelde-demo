@@ -1,5 +1,7 @@
 package ar.com.wolox.kotlintest.screens.home
 
+import ar.com.wolox.kotlintest.models.Gif
+
 /**
  * MIT License
  *
@@ -22,4 +24,7 @@ package ar.com.wolox.kotlintest.screens.home
  * DEALINGS IN THE SOFTWARE.
  *
  */
-data class HomeState(val counter: Int = 0)
+data class HomeState(
+        val gif: Gif = Gif("",""),
+        val isFetching: Boolean = false
+)

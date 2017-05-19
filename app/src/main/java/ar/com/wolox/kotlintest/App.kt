@@ -1,13 +1,12 @@
-package ar.com.wolox.kotlintest.screens.home
+package ar.com.wolox.kotlintest
 
-import ar.com.wolox.kotlintest.models.Gif
-import com.brianegan.bansa.Action
-import com.brianegan.bansa.Reducer
+import android.app.Application
+import android.content.Context
 
 /**
  * MIT License
  *
- * Copyright (c) 2017 Juan Ignacio Molina
+ * Copyright (c) 2017 Wolox S.A
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -26,20 +25,22 @@ import com.brianegan.bansa.Reducer
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class HomeReducer {
+class App : Application() {
 
-    // Actions
-    object INIT : Action
-    object FETCHING_GIF : Action
-    data class GIF_ARRIVED(val gif : Gif) : Action
-
-    // Reducer
-    val reducer = Reducer<HomeState> { state, action ->
-        when (action) {
-            is INIT -> HomeState()
-            is FETCHING_GIF -> state.copy(isFetching = true)
-            is GIF_ARRIVED -> state.copy(gif = action.gif, isFetching = false)
-            else -> state
-        }
+    companion object {
+        lateinit var sInstance: App
+            private set
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        sInstance = this
+
+        startUpDependencies(this)
+    }
+
+    private fun startUpDependencies(context: Context) {
+        //Fresco.initialize(context)
+    }
+
 }

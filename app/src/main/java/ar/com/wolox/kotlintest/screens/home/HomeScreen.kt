@@ -10,6 +10,7 @@ class HomeScreen : Screen<HomeView>() {
 
     //Store
     val store = BaseStore(HomeState(), HomeReducer().reducer)
+    val presenter = HomePresenter(store)
 
     // View layer
     override fun createView(context: Context): HomeView {
