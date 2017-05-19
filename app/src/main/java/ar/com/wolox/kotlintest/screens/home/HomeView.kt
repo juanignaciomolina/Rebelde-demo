@@ -9,9 +9,6 @@ import trikita.anvil.RenderableView
 
 class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
 
-    // State
-    var ticktock: Int = 0
-
     init {
         addView(object : RenderableView(context) {
             override fun view() {
@@ -25,15 +22,15 @@ class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
                         weight(1f)
                         gravity(CENTER)
                         textSize(sip(32f))
-                        text("Times: " + ticktock)
+                        text("Times: " + screen.store.state.counter)
                     }
 
                     button {
                         size(MATCH, WRAP)
                         text("Go to detail")
                         layoutGravity(CENTER)
-                        onClick {
-                            ticktock++
+                        onClick { v ->
+                            screen.store.dispatch(HomeReducer.INCREMENT)
                             screen.navigator.goTo(DetailScreen())
                         }
                     }
