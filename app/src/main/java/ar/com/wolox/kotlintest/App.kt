@@ -2,6 +2,7 @@ package ar.com.wolox.kotlintest
 
 import android.app.Application
 import android.content.Context
+import com.facebook.drawee.backends.pipeline.Fresco
 
 /**
  * MIT License
@@ -40,7 +41,7 @@ class App : Application() {
     }
 
     private fun startUpDependencies(context: Context) {
-        //Fresco.initialize(context)
+        Fresco.initialize(context)
     }
 
 }

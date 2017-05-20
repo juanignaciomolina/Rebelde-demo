@@ -1,9 +1,13 @@
 package ar.com.wolox.kotlintest.screens.home
 
 import android.content.Context
-import android.widget.ImageView
+import android.graphics.Color
 import android.widget.LinearLayout
-import ar.com.wolox.kotlintest.extensions.loadImage
+import ar.com.wolox.kotlintest.R
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.drawable.ProgressBarDrawable
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+import com.facebook.drawee.view.SimpleDraweeView
 import com.wealthfront.magellan.BaseScreenView
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
@@ -11,53 +15,42 @@ import trikita.anvil.RenderableView
 
 class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
 
+    var gifView : SimpleDraweeView? = null
+
     init {
         addView(object : RenderableView(context) {
             override fun view() {
                 linearLayout {
+                    backgroundColor(Color.BLACK)
                     size(MATCH, MATCH)
-                    padding(dip(8))
                     orientation(LinearLayout.VERTICAL)
 
-                    /*textView {
-                        visibility = if (screen.store.state.isFetching) View.VISIBLE else View.GONE
+                    textView {
                         size(MATCH, WRAP)
+                        visibility(screen.store.state.isFetching)
                         gravity(CENTER)
                         text("LOADING")
                         textSize(sip(18f))
-                    }*/
+                    }
 
-                    /*textView {
-                        size(MATCH, 0)
-                        weight(1f)
-                        gravity(CENTER)
-                        textSize(sip(32f))
-                        text("URL: " + screen.store.state.gif.url)
-                    }*/
-
-/*                    v(SimpleDraweeView::class.java) {
-                        size(MATCH, 0)
-                        weight(1f)
+                    v(SimpleDraweeView::class.java) {
                         init {
-                            val view: SimpleDraweeView = Anvil.currentView()
-                            view.setImageURI(screen.store.state.gif.url)
+                            gifView = Anvil.currentView()
+                            gifView!!.hierarchy = GenericDraweeHierarchyBuilder(context.resources)
+                                    .setPlaceholderImage(R.drawable.ic_loading)
+                                    .setProgressBarImage(ProgressBarDrawable())
+                                    .build()
                         }
-                    }*/
-
-                    imageView {
                         size(MATCH, 0)
                         weight(1f)
-                        init {
-                            Anvil
-                                    .currentView<ImageView>()
-                                    .loadImage(screen.store.state.gif.url)
-                        }
+                        showGif()
                     }
 
                     button {
-                        size(MATCH, WRAP)
-                        text("Go to detail")
+                        size(WRAP, WRAP)
+                        text("Load gifs")
                         layoutGravity(CENTER)
+                        padding(dip(16))
                         onClick {
                             screen.presenter.getGifs()
                             //screen.store.dispatch(HomeReducer.INCREMENT)
@@ -67,6 +60,13 @@ class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
                 }
             }
         })
+    }
+
+    private fun showGif() {
+        gifView!!.controller = Fresco.newDraweeControllerBuilder()
+                .setUri(screen.store.state.gif.webp)
+                .setAutoPlayAnimations(true)
+                .build()
     }
 
 }
