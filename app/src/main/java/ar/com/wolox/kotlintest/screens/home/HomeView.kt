@@ -2,20 +2,11 @@ package ar.com.wolox.kotlintest.screens.home
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSnapHelper
-import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout
-import ar.com.wolox.kotlintest.R
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.drawable.ProgressBarDrawable
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.facebook.drawee.view.SimpleDraweeView
+import ar.com.wolox.kotlintest.components.GifRecyclerComponent
 import com.wealthfront.magellan.BaseScreenView
-import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
-import trikita.anvil.recyclerview.Recycler
 
 
 class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
@@ -36,42 +27,7 @@ class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
                         textSize(sip(18f))
                     }
 
-                    v(RecyclerView::class.java) {
-                        val recycler = Anvil.currentView<RecyclerView>()
-                        size(MATCH, 0)
-                        weight(1f)
-
-                        recycler.layoutManager =
-                                LinearLayoutManager(
-                                        context,
-                                        LinearLayoutManager.VERTICAL,
-                                        false)
-
-                        recycler.setHasFixedSize(true)
-
-                        recycler.adapter =
-                                Recycler.Adapter.simple(screen.store.state.gifs) {
-                                    viewHolder ->
-
-                                    v(SimpleDraweeView::class.java) {
-                                        init {
-                                            Anvil.currentView<SimpleDraweeView>().hierarchy =
-                                                    GenericDraweeHierarchyBuilder(context.resources)
-                                                            .setPlaceholderImage(R.drawable.ic_loading)
-                                                            .setProgressBarImage(ProgressBarDrawable())
-                                                            .build()
-                                        }
-                                        size(MATCH, dip(360))
-                                        showGif(Anvil.currentView(),
-                                                screen.store.state
-                                                        .gifs[viewHolder.adapterPosition]
-                                                        .images.original.webp)
-                                    }
-                                }
-
-                        recycler.onFlingListener = null
-                        LinearSnapHelper().attachToRecyclerView(recycler)
-                    }
+                    GifRecyclerComponent(context, screen.store.state.gifs)
 
                     button {
                         size(WRAP, WRAP)
@@ -87,13 +43,6 @@ class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
                 }
             }
         })
-    }
-
-    private fun showGif(simpleDraweeView: SimpleDraweeView, webpUrl: String) {
-        simpleDraweeView.controller = Fresco.newDraweeControllerBuilder()
-                .setUri(webpUrl)
-                .setAutoPlayAnimations(true)
-                .build()
     }
 
 }
