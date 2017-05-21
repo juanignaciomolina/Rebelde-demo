@@ -11,8 +11,9 @@ import com.facebook.drawee.drawable.ProgressBarDrawable
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.view.SimpleDraweeView
 import trikita.anvil.Anvil
-import trikita.anvil.BaseDSL.*
-import trikita.anvil.DSL
+import trikita.anvil.BaseDSL
+import trikita.anvil.DSL.*
+import trikita.anvil.RenderableView
 import trikita.anvil.recyclerview.Recycler
 
 /**
@@ -37,17 +38,24 @@ import trikita.anvil.recyclerview.Recycler
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class GifRecyclerComponent(val context: Context, val gifs: List<Metadata>) {
+class GifRecyclerComponent(context: Context, val gifs: List<Metadata>) : RenderableView(context) {
 
     init {
-        anvilView()
+        view()
     }
 
-    fun anvilView() {
+    /**
+     * Neccesary to avoid a bug when detaching recycler views with Anvil
+     */
+    override fun onDetachedFromWindow() {
+        Anvil.unmount(this, false)
+    }
+
+    override fun view() {
+
         v(RecyclerView::class.java) {
             val recycler = Anvil.currentView<RecyclerView>()
-            size(MATCH, 0)
-            weight(1f)
+            size(MATCH, MATCH)
 
             recycler.layoutManager =
                     LinearLayoutManager(
@@ -62,14 +70,14 @@ class GifRecyclerComponent(val context: Context, val gifs: List<Metadata>) {
                         viewHolder ->
 
                         v(SimpleDraweeView::class.java) {
-                            init {
+                            BaseDSL.init {
                                 Anvil.currentView<SimpleDraweeView>().hierarchy =
                                         GenericDraweeHierarchyBuilder(context.resources)
                                                 .setPlaceholderImage(R.drawable.ic_loading)
                                                 .setProgressBarImage(ProgressBarDrawable())
                                                 .build()
                             }
-                            size(DSL.MATCH, dip(360))
+                            size(MATCH, dip(360))
                             showGif(Anvil.currentView(),
                                     gifs[viewHolder.adapterPosition].images.original.webp)
                         }
@@ -77,6 +85,7 @@ class GifRecyclerComponent(val context: Context, val gifs: List<Metadata>) {
 
             recycler.onFlingListener = null
             LinearSnapHelper().attachToRecyclerView(recycler)
+
         }
     }
 
@@ -86,5 +95,4 @@ class GifRecyclerComponent(val context: Context, val gifs: List<Metadata>) {
                 .setAutoPlayAnimations(true)
                 .build()
     }
-
 }

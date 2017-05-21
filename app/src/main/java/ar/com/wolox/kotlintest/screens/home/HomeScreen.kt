@@ -21,6 +21,6 @@ class HomeScreen : Screen<HomeView>() {
     override fun onShow(context: Context?) {
         super.onShow(context)
 
-        presenter.getGifs()
+        if (store.state.gifs.isEmpty()) presenter.getGifs()
     }
 }

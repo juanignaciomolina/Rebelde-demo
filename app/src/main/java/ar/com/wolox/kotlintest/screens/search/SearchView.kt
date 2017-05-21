@@ -1,4 +1,4 @@
-package ar.com.wolox.kotlintest.screens.detail
+package ar.com.wolox.kotlintest.screens.search
 
 import android.content.Context
 import android.widget.LinearLayout
@@ -6,7 +6,7 @@ import com.wealthfront.magellan.BaseScreenView
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
-class DetailView(context: Context) : BaseScreenView<DetailScreen>(context) {
+class SearchView(context: Context) : BaseScreenView<SearchScreen>(context) {
 
     init {
         addView(object : RenderableView(context) {
