@@ -8,6 +8,7 @@ android {
 
     defaultConfig {
         applicationId "ar.com.wolox.kotlintest"
+        multiDexEnabled true
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -42,10 +43,12 @@ dependencies {
     compile "com.android.support:support-core-utils:$support_version"
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:support-v4:$support_version"
+    compile "com.android.support:recyclerview-v7:$support_version"
+    compile 'com.android.support:multidex:1.0.1'
 
     // Framework dependencies
     compile "org.jetbrains.anko:anko-commons:$anko_version"
-    compile 'co.trikita:anvil-sdk19:0.5.0'
+    compile 'co.trikita:anvil-sdk19:0.5.1'
     compile 'com.github.trikita:anvil-recyclerview:1.2'
     compile 'com.wealthfront:magellan:1.0.0'
     compile 'com.wealthfront:magellan-support:1.0.0'

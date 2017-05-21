@@ -39,15 +39,15 @@ class HomePresenter(val store: Store<HomeState>) {
         restApi.giphy.trending().enqueue(object : Callback<DataWrapper> {
             override fun onResponse(call: Call<DataWrapper>, response: Response<DataWrapper>) {
                 if (response.isSuccessful) {
-                    store.dispatch(HomeReducer.GIF_ARRIVED(
-                            response.body()!!.data[0].images.original)
+                    store.dispatch(HomeReducer.GIFS_ARRIVED(
+                            response.body()!!.data)
                     )
                 } else
-                    App.sInstance.toast("ERROR")
+                    App.sInstance.toast("Error retrieving gifs")
             }
 
             override fun onFailure(call: Call<DataWrapper>?, t: Throwable?) {
-                App.sInstance.toast("ERROR")
+                App.sInstance.toast("Error retrieving gifs")
             }
 
         })

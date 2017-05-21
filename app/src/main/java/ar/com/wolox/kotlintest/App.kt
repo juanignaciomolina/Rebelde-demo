@@ -1,7 +1,7 @@
 package ar.com.wolox.kotlintest
 
-import android.app.Application
 import android.content.Context
+import android.support.multidex.MultiDexApplication
 import com.facebook.drawee.backends.pipeline.Fresco
 
 /**
@@ -26,7 +26,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class App : Application() {
+class App : MultiDexApplication() {
 
     companion object {
         lateinit var sInstance: App

@@ -1,6 +1,6 @@
 package ar.com.wolox.kotlintest.screens.home
 
-import ar.com.wolox.kotlintest.models.Gif
+import ar.com.wolox.kotlintest.models.Metadata
 
 /**
  * MIT License
@@ -25,6 +25,6 @@ import ar.com.wolox.kotlintest.models.Gif
  *
  */
 data class HomeState(
-        val gif: Gif = Gif("",""),
+        val gifs: List<Metadata> = ArrayList<Metadata>(),
         val isFetching: Boolean = false
 )

@@ -1,6 +1,6 @@
 package ar.com.wolox.kotlintest.screens.home
 
-import ar.com.wolox.kotlintest.models.Gif
+import ar.com.wolox.kotlintest.models.Metadata
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Reducer
 
@@ -30,15 +30,15 @@ class HomeReducer {
 
     // Actions
     object INIT : Action
-    object FETCHING_GIF : Action
-    data class GIF_ARRIVED(val gif : Gif) : Action
+    object FETCHING_GIFS : Action
+    data class GIFS_ARRIVED(val gifs : List<Metadata>) : Action
 
     // Reducer
     val reducer = Reducer<HomeState> { state, action ->
         when (action) {
             is INIT -> HomeState()
-            is FETCHING_GIF -> state.copy(isFetching = true)
-            is GIF_ARRIVED -> state.copy(gif = action.gif, isFetching = false)
+            is FETCHING_GIFS -> state.copy(isFetching = true)
+            is GIFS_ARRIVED -> state.copy(gifs = action.gifs, isFetching = false)
             else -> state
         }
     }
