@@ -40,7 +40,8 @@ interface GiphyService {
             : Call<DataWrapper>
 
     @GET("gifs/trending")
-    fun trending(@Query("api_key") apiKey: String = API_KEY)
+    fun trending(@Query("api_key") apiKey: String = API_KEY,
+                 @Query("limit") limit : Int = 25)
             : Call<DataWrapper>
 
 }

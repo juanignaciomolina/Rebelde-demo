@@ -36,7 +36,7 @@ class HomePresenter(val store: Store<HomeState>) {
     val restApi = RestApi()
 
     fun getGifs() {
-        restApi.giphy.trending().enqueue(object : Callback<DataWrapper> {
+        restApi.giphy.trending(limit = 100).enqueue(object : Callback<DataWrapper> {
             override fun onResponse(call: Call<DataWrapper>, response: Response<DataWrapper>) {
                 if (response.isSuccessful) {
                     store.dispatch(HomeReducer.GIFS_ARRIVED(

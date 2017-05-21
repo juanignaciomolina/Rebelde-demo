@@ -17,4 +17,10 @@ class HomeScreen : Screen<HomeView>() {
         store.subscribe { Anvil.render() }
         return HomeView(context)
     }
+
+    override fun onShow(context: Context?) {
+        super.onShow(context)
+
+        presenter.getGifs()
+    }
 }

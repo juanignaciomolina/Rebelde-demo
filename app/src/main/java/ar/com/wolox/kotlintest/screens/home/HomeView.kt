@@ -29,20 +29,10 @@ class HomeView(context: Context) : BaseScreenView<HomeScreen>(context) {
 
                     GifRecyclerComponent(context, screen.store.state.gifs)
 
-                    button {
-                        size(WRAP, WRAP)
-                        text("Load gifs")
-                        layoutGravity(CENTER)
-                        padding(dip(16))
-                        onClick {
-                            screen.presenter.getGifs()
-                            //screen.store.dispatch(HomeReducer.INCREMENT)
-                            // screen.navigator.goTo(DetailScreen())
-                        }
-                    }
                 }
             }
         })
     }
+
 
 }
