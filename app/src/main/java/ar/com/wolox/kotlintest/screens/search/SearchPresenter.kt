@@ -36,11 +36,12 @@ class SearchPresenter(val store: Store<SearchState>) {
     val restApi = RestApi()
 
     fun searchGifs(search : String) {
+        store.dispatch(SearchReducer.FETCHING_GIFS)
+
         restApi.giphy.search(phrase = search).enqueue(object : Callback<DataWrapper> {
             override fun onResponse(call: Call<DataWrapper>, response: Response<DataWrapper>) {
                 if (response.isSuccessful) {
-                    store.dispatch(SearchReducer.GIFS_ARRIVED(
-                            response.body()!!.data)
+                    store.dispatch(SearchReducer.GIFS_ARRIVED(response.body()!!.data)
                     )
                 } else
                     App.sInstance.toast("Error retrieving gifs")

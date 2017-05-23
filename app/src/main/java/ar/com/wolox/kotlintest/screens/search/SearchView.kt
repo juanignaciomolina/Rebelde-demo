@@ -47,7 +47,6 @@ class SearchView(context: Context) : BaseScreenView<SearchScreen>(context) {
                                 query ->
                                 screen.presenter.searchGifs(query)
                             }))
-
                         }
 
                         progressBar {

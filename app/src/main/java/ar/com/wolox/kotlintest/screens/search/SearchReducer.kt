@@ -29,14 +29,14 @@ import com.brianegan.bansa.Reducer
 class SearchReducer {
 
     // Actions
-    object INIT : Action
+    object RESET : Action
     object FETCHING_GIFS : Action
     data class GIFS_ARRIVED(val gifs : List<Metadata>) : Action
 
     // Reducer
     val reducer = Reducer<SearchState> { state, action ->
         when (action) {
-            is INIT -> SearchState()
+            is RESET -> SearchState()
             is FETCHING_GIFS -> state.copy(isFetching = true)
             is GIFS_ARRIVED -> state.copy(gifs = action.gifs, isFetching = false)
             else -> state
