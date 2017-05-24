@@ -1,4 +1,4 @@
-package ar.com.wolox.kotlintest.components
+package ar.com.wolox.kotlintest.components.search
 
 import android.text.Editable
 import android.text.TextWatcher

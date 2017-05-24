@@ -26,5 +26,6 @@ import ar.com.wolox.kotlintest.models.Metadata
  */
 data class SearchState(
         val gifs: List<Metadata> = ArrayList<Metadata>(),
-        val isFetching: Boolean = false
+        val isFetching: Boolean = false,
+        val searchHistory: List<String> = ArrayList<String>()
 )

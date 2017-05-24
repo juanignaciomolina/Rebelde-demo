@@ -30,8 +30,10 @@ class SearchReducer {
 
     // Actions
     object RESET : Action
+
     object FETCHING_GIFS : Action
-    data class GIFS_ARRIVED(val gifs : List<Metadata>) : Action
+    data class GIFS_ARRIVED(val gifs: List<Metadata>) : Action
+    data class NEW_SEARCH(val query: String) : Action
 
     // Reducer
     val reducer = Reducer<SearchState> { state, action ->
@@ -39,6 +41,9 @@ class SearchReducer {
             is RESET -> SearchState()
             is FETCHING_GIFS -> state.copy(isFetching = true)
             is GIFS_ARRIVED -> state.copy(gifs = action.gifs, isFetching = false)
+            is NEW_SEARCH ->
+                state.copy(searchHistory = ArrayList<String>(state.searchHistory)
+                        .also { it -> it.add(action.query) })
             else -> state
         }
     }

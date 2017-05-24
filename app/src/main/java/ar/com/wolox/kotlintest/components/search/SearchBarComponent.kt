@@ -1,13 +1,10 @@
-package ar.com.wolox.kotlintest.components
+package ar.com.wolox.kotlintest.components.search
 
-import android.content.Context
-import android.text.InputType
-import android.widget.LinearLayout
-import ar.com.wolox.kotlintest.R
-import com.github.ybq.android.spinkit.style.DoubleBounce
+import android.widget.ArrayAdapter
 import trikita.anvil.DSL
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
+
 
 /**
  * MIT License
@@ -31,10 +28,11 @@ import trikita.anvil.RenderableView
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class SearchBarComponent(context: Context,
+class SearchBarComponent(context: android.content.Context,
                          val w: Int = MATCH,
                          val h: Int = WRAP,
                          val isFetching: Boolean,
+                         val searchHistory: List<String>? = null,
                          val searchCallback: (query: String) -> Unit) : RenderableView(context) {
 
     init {
@@ -44,24 +42,35 @@ class SearchBarComponent(context: Context,
     override fun view() {
         linearLayout {
             size(w, h)
-            orientation(LinearLayout.HORIZONTAL)
+            orientation(android.widget.LinearLayout.HORIZONTAL)
 
             imageView {
                 size(dip(24), dip(24))
-                imageResource(R.drawable.ic_search)
+                imageResource(ar.com.wolox.kotlintest.R.drawable.ic_search)
                 layoutGravity(BOTTOM)
                 margin(0, 0, 0, dip(16))
             }
 
-            editText {
+            autoCompleteTextView {
                 size(0, MATCH)
                 weight(1f)
                 hint("Search something...")
                 textSize(DSL.sip(18f))
                 singleLine(true)
                 margin(dip(8), 0, 0, 0)
-                inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
 
+                // Avoid soft keyboard suggestions (autocomplete)
+                inputType(android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+
+                // Adapter to display previous searchs
+                if (searchHistory != null) {
+                    adapter(ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line,
+                            searchHistory))
+                }
+
+                // Use a delayed text watcher to avoid triggering unnecessary searchs in every
+                // key stroke
                 onTextChanged(DelayedTextWatcher { text ->
                     searchCallback(text)
                 })
@@ -73,7 +82,7 @@ class SearchBarComponent(context: Context,
                 visibility(isFetching)
                 layoutGravity(BOTTOM)
                 margin(0, 0, 0, dip(16))
-                indeterminateDrawable(DoubleBounce())
+                indeterminateDrawable(com.github.ybq.android.spinkit.style.DoubleBounce())
             }
         }
     }

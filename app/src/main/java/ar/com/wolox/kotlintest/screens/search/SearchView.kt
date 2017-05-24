@@ -3,8 +3,8 @@ package ar.com.wolox.kotlintest.screens.search
 import android.content.Context
 import android.widget.LinearLayout
 import ar.com.wolox.kotlintest.R
-import ar.com.wolox.kotlintest.components.SearchBarComponent
 import ar.com.wolox.kotlintest.components.gif.GifRecyclerComponent
+import ar.com.wolox.kotlintest.components.search.SearchBarComponent
 import ar.com.wolox.kotlintest.screens.detail.DetailScreen
 import com.wealthfront.magellan.BaseScreenView
 import com.wealthfront.magellan.transitions.NoAnimationTransition
@@ -28,8 +28,10 @@ class SearchView(context: Context) : BaseScreenView<SearchScreen>(context) {
 
                         SearchBarComponent(
                                 context,
-                                isFetching = screen.store.state.isFetching) {
+                                isFetching = screen.store.state.isFetching,
+                                searchHistory = screen.store.state.searchHistory) {
                             query ->
+                            screen.store.dispatch(SearchReducer.NEW_SEARCH(query))
                             screen.presenter.searchGifs(query)
                         }
                     }
