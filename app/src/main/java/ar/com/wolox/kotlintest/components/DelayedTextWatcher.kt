@@ -26,7 +26,7 @@ import java.util.*
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class DelayedTextWatcher(val callback: (string : String) -> Unit, val delay: Long = 600) : TextWatcher {
+class DelayedTextWatcher(val delay: Long = 600, val callback: (string: String) -> Unit) : TextWatcher {
 
     private var timer: Timer? = null
 
@@ -35,7 +35,7 @@ class DelayedTextWatcher(val callback: (string : String) -> Unit, val delay: Lon
         timer = Timer()
         timer!!.schedule(object : TimerTask() {
             override fun run() {
-                callback.invoke(text.toString()) // Let the caller handle the text changed after the delay
+                callback(text.toString()) // Let the caller handle the text changed after the delay
             }
         }, delay)
     }

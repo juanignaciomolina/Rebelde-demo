@@ -1,6 +1,6 @@
-package ar.com.wolox.kotlintest.models
+package ar.com.wolox.kotlintest.screens.detail
 
-import com.google.gson.annotations.SerializedName
+import com.brianegan.bansa.Store
 
 /**
  * MIT License
@@ -24,8 +24,8 @@ import com.google.gson.annotations.SerializedName
  * DEALINGS IN THE SOFTWARE.
  *
  */
-data class Images(
-        @SerializedName("original") val original : Gif,
-        @SerializedName("fixed_height_downsampled") val scrollItem: Gif,
-        @SerializedName("downsized_medium") val reducedSize: Gif
-)
+class DetailPresenter(val store: Store<DetailState>) {
+
+    // Implement presenter methods if necessary...
+
+}

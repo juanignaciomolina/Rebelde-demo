@@ -1,17 +1,12 @@
-package ar.com.wolox.kotlintest.components
+package ar.com.wolox.kotlintest.components.gif
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
-import ar.com.wolox.kotlintest.R
+import android.view.View
 import ar.com.wolox.kotlintest.models.Metadata
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.drawable.ProgressBarDrawable
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.facebook.drawee.view.SimpleDraweeView
 import trikita.anvil.Anvil
-import trikita.anvil.BaseDSL
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 import trikita.anvil.recyclerview.Recycler
@@ -19,7 +14,7 @@ import trikita.anvil.recyclerview.Recycler
 /**
  * MIT License
  *
- * Copyright (c) 2017 Wolox S.A
+ * Copyright (c) 2017 Juan Ignacio Molina
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -38,7 +33,10 @@ import trikita.anvil.recyclerview.Recycler
  * DEALINGS IN THE SOFTWARE.
  *
  */
-class GifRecyclerComponent(context: Context, val gifs: List<Metadata>) : RenderableView(context) {
+class GifRecyclerComponent(
+        context: Context,
+        val gifs: List<Metadata>,
+        val onGifSelected: (view: View, gif: Metadata) -> Unit) : RenderableView(context) {
 
     init {
         view()
@@ -57,42 +55,37 @@ class GifRecyclerComponent(context: Context, val gifs: List<Metadata>) : Rendera
             val recycler = Anvil.currentView<RecyclerView>()
             size(MATCH, MATCH)
 
+            // Layout manager
             recycler.layoutManager =
                     LinearLayoutManager(
                             context,
                             LinearLayoutManager.VERTICAL,
                             false)
 
+            // Fixed height for improved performance
             recycler.setHasFixedSize(true)
 
+            // Simple gifs list adapter
             recycler.adapter =
                     Recycler.Adapter.simple(gifs) {
                         viewHolder ->
 
-                        v(SimpleDraweeView::class.java) {
-                            BaseDSL.init {
-                                Anvil.currentView<SimpleDraweeView>().hierarchy =
-                                        GenericDraweeHierarchyBuilder(context.resources)
-                                                .setPlaceholderImage(R.drawable.ic_loading)
-                                                .setProgressBarImage(ProgressBarDrawable())
-                                                .build()
-                            }
-                            size(MATCH, dip(360))
-                            showGif(Anvil.currentView(),
-                                    gifs[viewHolder.adapterPosition].images.original.webp)
+                        GifComponent(
+                                context,
+                                MATCH,
+                                dip(360),
+                                gifs[viewHolder.adapterPosition].images.scrollItem.webp)
+
+                        // Callback to report a gif being clicked
+                        onClick { view ->
+                            onGifSelected(view, gifs[viewHolder.adapterPosition])
                         }
                     }
 
+            // Snap scrolling
             recycler.onFlingListener = null
             LinearSnapHelper().attachToRecyclerView(recycler)
-
         }
     }
 
-    private fun showGif(simpleDraweeView: SimpleDraweeView, webpUrl: String) {
-        simpleDraweeView.controller = Fresco.newDraweeControllerBuilder()
-                .setUri(webpUrl)
-                .setAutoPlayAnimations(true)
-                .build()
-    }
 }

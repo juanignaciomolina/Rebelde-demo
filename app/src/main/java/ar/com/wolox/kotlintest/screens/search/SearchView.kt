@@ -1,13 +1,13 @@
 package ar.com.wolox.kotlintest.screens.search
 
 import android.content.Context
-import android.text.InputType
 import android.widget.LinearLayout
 import ar.com.wolox.kotlintest.R
-import ar.com.wolox.kotlintest.components.DelayedTextWatcher
-import ar.com.wolox.kotlintest.components.GifRecyclerComponent
-import com.github.ybq.android.spinkit.style.DoubleBounce
+import ar.com.wolox.kotlintest.components.SearchBarComponent
+import ar.com.wolox.kotlintest.components.gif.GifRecyclerComponent
+import ar.com.wolox.kotlintest.screens.detail.DetailScreen
 import com.wealthfront.magellan.BaseScreenView
+import com.wealthfront.magellan.transitions.NoAnimationTransition
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
@@ -21,44 +21,24 @@ class SearchView(context: Context) : BaseScreenView<SearchScreen>(context) {
                     size(MATCH, MATCH)
                     orientation(LinearLayout.VERTICAL)
 
-                    linearLayout {
-                        size(MATCH, dip(96))
-                        orientation(LinearLayout.HORIZONTAL)
-                        padding(dip(16), dip(32), dip(16), dip(8))
-                        backgroundColor(ar.com.wolox.kotlintest.R.color.colorPrimary)
+                    frameLayout {
+                        size(MATCH, dip(86))
+                        backgroundColor(R.color.colorPrimary)
+                        padding(dip(16), dip(36), dip(16), dip(8))
 
-                        imageView {
-                            size(dip(24), dip(24))
-                            imageResource(R.drawable.ic_search)
-                            layoutGravity(BOTTOM)
-                            margin(0, 0, 0, dip(16))
-                        }
-
-                        editText {
-                            size(0, MATCH)
-                            weight(1f)
-                            hint("Search something...")
-                            textSize(sip(18f))
-                            singleLine(true)
-                            margin(dip(8), 0, 0, 0)
-                            inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
-
-                            onTextChanged(DelayedTextWatcher({
-                                query ->
-                                screen.presenter.searchGifs(query)
-                            }))
-                        }
-
-                        progressBar {
-                            size(dip(24), dip(24))
-                            visibility(screen.store.state.isFetching)
-                            layoutGravity(BOTTOM)
-                            margin(0, 0, 0, dip(16))
-                            indeterminateDrawable(DoubleBounce())
+                        SearchBarComponent(
+                                context,
+                                isFetching = screen.store.state.isFetching) {
+                            query ->
+                            screen.presenter.searchGifs(query)
                         }
                     }
 
-                    GifRecyclerComponent(context, screen.store.state.gifs)
+                    GifRecyclerComponent(context, screen.store.state.gifs) { _, gif ->
+                        screen.navigator.
+                                overrideTransition(NoAnimationTransition())
+                                .show(DetailScreen(gif))
+                    }
                 }
             }
 

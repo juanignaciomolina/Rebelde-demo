@@ -1,11 +1,11 @@
-package ar.com.wolox.kotlintest.models
+package ar.com.wolox.kotlintest.screens.detail
 
-import com.google.gson.annotations.SerializedName
+import com.brianegan.bansa.Reducer
 
 /**
  * MIT License
  *
- * Copyright (c) 2017 Wolox S.A
+ * Copyright (c) 2017 Juan Ignacio Molina
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -24,8 +24,14 @@ import com.google.gson.annotations.SerializedName
  * DEALINGS IN THE SOFTWARE.
  *
  */
-data class Images(
-        @SerializedName("original") val original : Gif,
-        @SerializedName("fixed_height_downsampled") val scrollItem: Gif,
-        @SerializedName("downsized_medium") val reducedSize: Gif
-)
+class DetailReducer {
+
+    // Actions
+    // None
+
+    // Reducer
+    val reducer = Reducer<DetailState> { state, action ->
+        // Implement actions if necessary...
+        state
+    }
+}
