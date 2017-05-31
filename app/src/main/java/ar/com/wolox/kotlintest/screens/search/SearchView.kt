@@ -44,7 +44,8 @@ class SearchView(context: Context) : BaseScreenView<SearchScreen>(context) {
                 }
             }
 
-            // TODO TEMPORAL FIX FOR RECYCLER ISSUE
+            // This fixes an issue with Anvil and RecyclerViews
+            // https://github.com/zserge/anvil/issues/95
             override fun onDetachedFromWindow() {
                 Anvil.unmount(this, false)
             }

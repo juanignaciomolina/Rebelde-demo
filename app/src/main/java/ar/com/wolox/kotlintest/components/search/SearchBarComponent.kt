@@ -1,10 +1,10 @@
 package ar.com.wolox.kotlintest.components.search
 
+import ar.com.wolox.kotlintest.R
 import android.widget.ArrayAdapter
 import trikita.anvil.DSL
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
-
 
 /**
  * MIT License
@@ -54,7 +54,7 @@ class SearchBarComponent(context: android.content.Context,
             autoCompleteTextView {
                 size(0, MATCH)
                 weight(1f)
-                hint("Search something...")
+                hint(R.string.component_searchbar_hint)
                 textSize(DSL.sip(18f))
                 singleLine(true)
                 margin(dip(8), 0, 0, 0)

@@ -1,6 +1,7 @@
 package ar.com.wolox.kotlintest.screens.home
 
 import ar.com.wolox.kotlintest.App
+import ar.com.wolox.kotlintest.R
 import ar.com.wolox.kotlintest.api.RestApi
 import ar.com.wolox.kotlintest.models.DataWrapper
 import com.brianegan.bansa.Store
@@ -45,11 +46,11 @@ class HomePresenter(val store: Store<HomeState>) {
                             response.body()!!.data)
                     )
                 } else
-                    App.sInstance.toast("Error retrieving gifs")
+                    App.sInstance.toast(R.string.error_network)
             }
 
             override fun onFailure(call: Call<DataWrapper>?, t: Throwable?) {
-                App.sInstance.toast("Error retrieving gifs")
+                App.sInstance.toast(R.string.error_network)
             }
 
         })

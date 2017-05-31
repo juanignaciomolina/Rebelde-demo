@@ -31,7 +31,7 @@ class HomeReducer {
     // Actions
     object RESET : Action
     object FETCHING_GIFS : Action
-    data class GIFS_ARRIVED(val gifs : List<Metadata>) : Action
+    data class GIFS_ARRIVED(val gifs: List<Metadata>) : Action
 
     // Reducer
     val reducer = Reducer<HomeState> { state, action ->

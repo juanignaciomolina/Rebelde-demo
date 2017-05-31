@@ -39,7 +39,7 @@ class DetailView(context: Context) : BaseScreenView<DetailScreen>(context) {
                         size(MATCH, 0)
                         weight(0.4f) // 40% of the screen height
                         backgroundColor(R.color.white)
-                        padding(dip(24), dip(32), dip(24), dip(64))
+                        padding(dip(24), dip(32), dip(32), dip(32))
 
                         scrollView {
                             linearLayout {
@@ -49,7 +49,7 @@ class DetailView(context: Context) : BaseScreenView<DetailScreen>(context) {
                                 textView {
                                     size(MATCH, WRAP)
                                     textSize(sip(24f))
-                                    text("Sharing is caring")
+                                    text(R.string.screen_detail_share)
                                     margin(0, 0, 0, dip(24))
                                 }
 

@@ -1,6 +1,7 @@
 package ar.com.wolox.kotlintest.screens.search
 
 import ar.com.wolox.kotlintest.App
+import ar.com.wolox.kotlintest.R
 import ar.com.wolox.kotlintest.api.RestApi
 import ar.com.wolox.kotlintest.models.DataWrapper
 import com.brianegan.bansa.Store
@@ -12,7 +13,7 @@ import retrofit2.Response
 /**
  * MIT License
  *
- * Copyright (c) 2017 Wolox S.A
+ * Copyright (c) 2017 Juan Ignacio Molina
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -35,7 +36,7 @@ class SearchPresenter(val store: Store<SearchState>) {
 
     val restApi = RestApi()
 
-    fun searchGifs(search : String) {
+    fun searchGifs(search: String) {
         store.dispatch(SearchReducer.FETCHING_GIFS)
 
         restApi.giphy.search(phrase = search).enqueue(object : Callback<DataWrapper> {
@@ -44,11 +45,11 @@ class SearchPresenter(val store: Store<SearchState>) {
                     store.dispatch(SearchReducer.GIFS_ARRIVED(response.body()!!.data)
                     )
                 } else
-                    App.sInstance.toast("Error retrieving gifs")
+                    App.sInstance.toast(R.string.error_network)
             }
 
             override fun onFailure(call: Call<DataWrapper>?, t: Throwable?) {
-                App.sInstance.toast("Error retrieving gifs")
+                App.sInstance.toast(R.string.error_network)
             }
 
         })

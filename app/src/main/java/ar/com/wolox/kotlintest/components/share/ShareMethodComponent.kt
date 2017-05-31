@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.Gravity
 import android.widget.LinearLayout
+import ar.com.wolox.kotlintest.R
 import com.mcxiaoke.koi.ext.isAppInstalled
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
@@ -70,7 +71,8 @@ class ShareMethodComponent(context: Context,
     private fun share(appPackage: String? = null) {
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "I found this on GifExplorer, LOL " + urlToShare)
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                context.getString(R.string.component_sharemethod_app_message) + " " + urlToShare)
         shareIntent.type = "text/plain"
         if (appPackage != null && context.isAppInstalled(appPackage))
             shareIntent.`package` = appPackage

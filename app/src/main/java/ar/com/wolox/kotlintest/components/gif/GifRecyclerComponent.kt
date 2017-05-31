@@ -42,13 +42,6 @@ class GifRecyclerComponent(
         view()
     }
 
-    /**
-     * Neccesary to avoid a bug when detaching recycler views with Anvil
-     */
-    override fun onDetachedFromWindow() {
-        Anvil.unmount(this, false)
-    }
-
     override fun view() {
 
         v(RecyclerView::class.java) {

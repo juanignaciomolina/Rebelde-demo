@@ -1,6 +1,7 @@
 package ar.com.wolox.kotlintest.components.share
 
 import android.support.annotation.IntegerRes
+import ar.com.wolox.kotlintest.App
 import ar.com.wolox.kotlintest.R
 
 enum class SocialNetwork(val networkName: String,
@@ -12,6 +13,7 @@ enum class SocialNetwork(val networkName: String,
     TWITTER("Twitter", R.drawable.ic_twitter, "com.twitter.android"),
     INSTAGRAM("Instagram", R.drawable.ic_twitter, "com.instagram.android"),
     TELEGRAM("Telegram", R.drawable.ic_telegram, "org.telegram.messenger"),
-    OTHER("Other apps...", R.drawable.ic_share, null)
+    OTHER(App.sInstance.resources.getString(R.string.component_sharemethod_other),
+            R.drawable.ic_share, null)
 
 }
