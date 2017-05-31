@@ -48,12 +48,12 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     // Framework dependencies
-    compile "org.jetbrains.anko:anko-commons:$anko_version"
     compile 'co.trikita:anvil-sdk19:0.5.1'
     compile 'com.github.trikita:anvil-recyclerview:1.2'
     compile 'com.wealthfront:magellan:1.0.0'
     compile 'com.wealthfront:magellan-support:1.0.0'
     compile 'com.github.brianegan.bansa:bansaKotlin:1.0.0-beta'
+    compile 'com.mcxiaoke.koi:core:0.5.4'
 
     // Third party
     compile "com.squareup.okhttp3:okhttp:$okhttp3_version"

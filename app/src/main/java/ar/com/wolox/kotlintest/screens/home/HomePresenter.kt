@@ -4,7 +4,7 @@ import ar.com.wolox.kotlintest.App
 import ar.com.wolox.kotlintest.api.RestApi
 import ar.com.wolox.kotlintest.models.DataWrapper
 import com.brianegan.bansa.Store
-import org.jetbrains.anko.toast
+import com.mcxiaoke.koi.ext.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

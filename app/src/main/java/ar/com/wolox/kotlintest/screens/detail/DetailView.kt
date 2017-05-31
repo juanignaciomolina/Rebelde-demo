@@ -2,8 +2,12 @@ package ar.com.wolox.kotlintest.screens.detail
 
 import android.content.Context
 import android.widget.LinearLayout
+import ar.com.wolox.kotlintest.R
 import ar.com.wolox.kotlintest.components.gif.GifComponent
+import ar.com.wolox.kotlintest.components.share.ShareMethodComponent
+import ar.com.wolox.kotlintest.components.share.SocialNetwork
 import com.facebook.drawee.drawable.ScalingUtils
+import com.mcxiaoke.koi.ext.isAppInstalled
 import com.wealthfront.magellan.BaseScreenView
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
@@ -19,16 +23,54 @@ class DetailView(context: Context) : BaseScreenView<DetailScreen>(context) {
                     size(MATCH, MATCH)
                     orientation(LinearLayout.VERTICAL)
 
-                    GifComponent(
-                            context,
-                            MATCH,
-                            dip(420),
-                            screen.store.state.gif.images.original.webp,
-                            ScalingUtils.ScaleType.FIT_CENTER)
-                }
+                    frameLayout {
+                        size(MATCH, 0)
+                        weight(0.6f) // 60% of the screen height
 
+                        GifComponent(
+                                context,
+                                MATCH,
+                                MATCH,
+                                screen.store.state.gif.images.original.webp,
+                                ScalingUtils.ScaleType.FIT_CENTER)
+                    }
+
+                    frameLayout {
+                        size(MATCH, 0)
+                        weight(0.4f) // 40% of the screen height
+                        backgroundColor(R.color.white)
+                        padding(dip(24), dip(32), dip(24), dip(64))
+
+                        scrollView {
+                            linearLayout {
+                                size(MATCH, MATCH)
+                                orientation(LinearLayout.VERTICAL)
+
+                                textView {
+                                    size(MATCH, WRAP)
+                                    textSize(sip(24f))
+                                    text("Sharing is caring")
+                                    margin(0, 0, 0, dip(24))
+                                }
+
+                                SocialNetwork.values()
+                                        .filter {
+                                            it.packageName == null ||
+                                                    context.isAppInstalled(it.packageName)
+                                        }
+                                        .forEach {
+                                            ShareMethodComponent(
+                                                    context,
+                                                    it,
+                                                    screen.store.state.gif.url
+                                            )
+                                        }
+
+                            }
+                        }
+                    }
+                }
             }
         })
-
     }
 }

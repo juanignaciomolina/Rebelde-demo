@@ -3,8 +3,7 @@ package ar.com.wolox.kotlintest.activities
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-import org.jetbrains.anko.startActivity
-
+import com.mcxiaoke.koi.ext.startActivity
 
 /**
  * MIT License
