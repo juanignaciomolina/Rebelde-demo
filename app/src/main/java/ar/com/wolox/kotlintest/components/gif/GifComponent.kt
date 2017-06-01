@@ -1,6 +1,8 @@
 package ar.com.wolox.kotlintest.components.gif
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
+import ar.com.wolox.kotlintest.R
 import com.facebook.drawee.backends.pipeline.Fresco.newDraweeControllerBuilder
 import com.facebook.drawee.drawable.ScalingUtils
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
@@ -48,14 +50,14 @@ class GifComponent(context: Context,
             init {
                 Anvil.currentView<SimpleDraweeView>().hierarchy =
                         GenericDraweeHierarchyBuilder(context.resources)
-                                .setPlaceholderImage(ar.com.wolox.kotlintest.R.drawable.ic_loading)
+                                .setPlaceholderImage(R.drawable.ic_loading)
                                 .setProgressBarImage(com.facebook.drawee.drawable.ProgressBarDrawable())
                                 .setActualImageScaleType(scaleType)
                                 .build()
             }
 
             size(w, h)
-            backgroundColor(ar.com.wolox.kotlintest.R.color.black)
+            backgroundColor(ContextCompat.getColor(context, R.color.black))
 
             Anvil.currentView<SimpleDraweeView>().controller =
                     newDraweeControllerBuilder()

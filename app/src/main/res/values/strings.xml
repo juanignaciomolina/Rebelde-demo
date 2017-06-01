@@ -10,7 +10,7 @@
     <string name="screen_detail_share">Sharing is caring</string>
 
     <!-- Component: ShareMethod -->
-    <string name="component_sharemethod_other">Other…</string>
+    <string name="component_sharemethod_other">Other apps…</string>
     <string name="component_sharemethod_app_message">I found this on GifExplorer, LOL</string>
 
     <!-- Component: SearchBar -->

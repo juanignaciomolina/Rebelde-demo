@@ -66,6 +66,7 @@ dependencies {
     compile "com.facebook.fresco:animated-webp:$fresco_version"
     compile "com.facebook.fresco:webpsupport:$fresco_version"
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    compile "com.android.support:cardview-v7:$support_version"
 
     // Testing dependencies
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

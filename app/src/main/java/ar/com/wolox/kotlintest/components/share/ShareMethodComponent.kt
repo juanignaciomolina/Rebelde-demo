@@ -2,6 +2,8 @@ package ar.com.wolox.kotlintest.components.share
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
+import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.widget.LinearLayout
 import ar.com.wolox.kotlintest.R
@@ -59,6 +61,10 @@ class ShareMethodComponent(context: Context,
                 text(socialNetwork.networkName)
                 textSize(sip(18f))
                 gravity(Gravity.CENTER_VERTICAL)
+                textColor(ContextCompat.getColor(context, R.color.white))
+                typeface(Typeface.createFromAsset(
+                        context.assets,
+                        "fonts/Asap-Regular.ttf"))
             }
 
             onClick {
